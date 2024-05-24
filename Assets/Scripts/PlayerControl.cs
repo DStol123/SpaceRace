@@ -57,6 +57,14 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    private void Boost()
+    {
+        if(Input.GetKey("f"))
+        {
+            rb.AddRelativeForce(new Vector3(0, 0, vehicleInfo.BoostSpeed));
+        }
+    }
+
     // This method creates a roll axis.
     // ローリングのインプットを読む
     private void CheckRoll()
@@ -109,5 +117,7 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         MovePlayer();
+        Boost();
+        Debug.Log(rb.velocity);
     }
 }

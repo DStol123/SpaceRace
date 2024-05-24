@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3276b6f1278f42bf827c95e7c3dafe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultInitializer: {fileID: 11400000, guid: 7dae22634d9f549878c874a35335d178, type: 2}
+  defaultInitializer: {fileID: 11400000, guid: 6d636e0e9bc094c1391dfad0b45bbc0c, type: 2}
   gameDataInitializer: {fileID: 11400000, guid: 5bc50301d240346d0ad04e87a57a1b1f,
     type: 2}
 --- !u!65 &1131111899
