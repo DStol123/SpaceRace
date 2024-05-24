@@ -13,6 +13,7 @@ public class VehicleData
     private float rollSpeed;
     private float accelerationDebuff = 1f;
     private bool inertialDampenersOn;
+    private float boostSpeed;
 
     public VehicleData(VehicleMovementInfoSO scriptableInit)
     {
@@ -22,6 +23,7 @@ public class VehicleData
         this.rollSpeed = scriptableInit.rollSpeed;
         this.accelerationDebuff = scriptableInit.accelerationDebuff;
         this.inertialDampenersOn = scriptableInit.inertialDampenersOn;
+        this.boostSpeed = scriptableInit.boostSpeed;
     }
 
     public float ForwardThrust
@@ -54,5 +56,9 @@ public class VehicleData
         get { return  inertialDampenersOn; }
         set {  inertialDampenersOn = value;}
     }
-
+    public float BoostSpeed
+    {
+        get { return boostSpeed; }
+        set { boostSpeed = value; }
+    }
 }
