@@ -489,7 +489,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultInitializer: {fileID: 11400000, guid: 7dae22634d9f549878c874a35335d178, type: 2}
-  startTime: 2
+  gameDataInitializer: {fileID: 11400000, guid: 5bc50301d240346d0ad04e87a57a1b1f,
+    type: 2}
 --- !u!65 &1131111899
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -575,7 +576,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 330585546}
-  - {fileID: 1142891671}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -6.177, y: -70.227, z: 16.664}
 --- !u!1 &1142891670
@@ -604,12 +604,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1142891670}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0046687745, y: -0, z: -0, w: 0.99998915}
-  m_LocalPosition: {x: -0.325, y: -0.76, z: 0.374}
-  m_LocalScale: {x: 0.5, y: 0.9996514, z: 0.20001395}
+  m_LocalRotation: {x: -0.13063613, y: -0.56231546, z: 0.08507724, w: 0.8120945}
+  m_LocalPosition: {x: -8.7418585, y: 99.19537, z: 223.14476}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1131111902}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -0.535, y: 0, z: 0}
 --- !u!114 &1142891672
 MonoBehaviour:
@@ -703,3 +703,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1131111902}
   - {fileID: 47437541}
+  - {fileID: 1142891671}

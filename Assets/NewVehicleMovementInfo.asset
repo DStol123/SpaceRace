@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aecb2846a09d450a9e28cbb7bf1ef80, type: 3}
   m_Name: NewVehicleMovementInfo
   m_EditorClassIdentifier: 
-  forwardThrust: 0
-  lateralThrust: 0
-  rotationSpeed: 0
-  rollSpeed: 0
-  accelerationDebuff: 0
-  inertialDampenersOn: 0
+  forwardThrust: 150
+  lateralThrust: 200
+  rotationSpeed: 80
+  rollSpeed: 100
+  accelerationDebuff: 1
+  inertialDampenersOn: 1
