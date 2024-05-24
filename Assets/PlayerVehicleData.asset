@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30babf3feb2804109b09a4ff304225d8, type: 3}
-  m_Name: GameDataSO
+  m_Script: {fileID: 11500000, guid: 0aecb2846a09d450a9e28cbb7bf1ef80, type: 3}
+  m_Name: PlayerVehicleData
   m_EditorClassIdentifier: 
-  startTime: 1
-  timeLimit: 0
-  totalLaps: 0
+  forwardThrust: 150
+  lateralThrust: 200
+  rotationSpeed: 80
+  rollSpeed: 100
+  accelerationDebuff: 1
+  inertialDampenersOn: 1
