@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0aecb2846a09d450a9e28cbb7bf1ef80, type: 3}
-  m_Name: NewVehicleMovementInfo
+  m_Name: Vehicle1
   m_EditorClassIdentifier: 
   forwardThrust: 200
   lateralThrust: 250
@@ -19,3 +19,4 @@ MonoBehaviour:
   accelerationDebuff: 1
   inertialDampenersOn: 1
   boostSpeed: 100
+  damageResistance: 100

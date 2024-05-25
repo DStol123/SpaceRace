@@ -16,4 +16,5 @@ public class VehicleMovementInfoSO : ScriptableObject
     public float accelerationDebuff;
     public bool inertialDampenersOn;
     public float boostSpeed;
+    public float damageResistance;
 }

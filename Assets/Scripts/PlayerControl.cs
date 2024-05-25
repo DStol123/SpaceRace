@@ -21,6 +21,8 @@ public class PlayerControl : MonoBehaviour
     private float mouseX;
     private float mouseY;
     private float roll;
+    private Vector3 initialPosition = new Vector3();
+    private Quaternion initialOrientation;
 
     // This method assigns user inputs into the input variables.
     // プレーヤーのインプットを変数にする。
@@ -55,6 +57,13 @@ public class PlayerControl : MonoBehaviour
         {
             verticalInput = -1f * Mathf.Sign(transform.InverseTransformDirection(rb.velocity).y);
         }
+    }
+
+    private void ResetToStart()
+    {
+        transform.position = initialPosition;
+        rb.velocity = new Vector3(0f, 0f, 0f);
+        rb.transform.rotation = initialOrientation;
     }
 
     private void Boost()
@@ -97,6 +106,15 @@ public class PlayerControl : MonoBehaviour
         rb.AddRelativeForce(new Vector3(x, y, z) * Time.deltaTime / vehicleInfo.AccelerationDebuff); //Add acceleration. 加速つける
         transform.localRotation = transform.localRotation * Quaternion.Euler(new Vector3(-rotX, rotY, rotZ) * Time.deltaTime / vehicleInfo.AccelerationDebuff); //Add rotation. 回る
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (rb.velocity.magnitude > vehicleInfo.DamageResistance)
+        {
+            ResetToStart();
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -111,6 +129,8 @@ public class PlayerControl : MonoBehaviour
         //　VehicleDataとGameDataを読めるようにする。変更しないでください
         vehicleInfo = new VehicleData(defaultInitializer);
         gameInfo = new GameData(gameDataInitializer);
+        initialPosition = transform.position;
+        initialOrientation = rb.transform.rotation;
     }
 
     // Update is called once per frame
