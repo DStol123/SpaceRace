@@ -109,7 +109,7 @@ public class PlayerControl : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (rb.velocity.magnitude > vehicleInfo.DamageResistance)
+        if (collision.relativeVelocity.magnitude > vehicleInfo.DamageResistance)
         {
             ResetToStart();
         }
