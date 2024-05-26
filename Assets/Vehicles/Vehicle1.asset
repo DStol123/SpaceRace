@@ -18,5 +18,8 @@ MonoBehaviour:
   rollSpeed: 100
   accelerationDebuff: 1
   inertialDampenersOn: 1
-  boostSpeed: 100
-  damageResistance: 100
+  boostSpeed: 1000
+  damageResistance: 50
+  gaugeFillSpeed: 15
+  gaugeCapacity: 100
+  boostConsumption: 35

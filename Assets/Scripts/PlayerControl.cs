@@ -23,6 +23,8 @@ public class PlayerControl : MonoBehaviour
     private float roll;
     private Vector3 initialPosition = new Vector3();
     private Quaternion initialOrientation;
+    private float gaugeMeter;
+    private bool boosting;
 
     // This method assigns user inputs into the input variables.
     // プレーヤーのインプットを変数にする。
@@ -35,7 +37,6 @@ public class PlayerControl : MonoBehaviour
             verticalInput = Input.GetAxis("Jump"); //Make sure to set the negative button in the Unity input manager.
             mouseX = Input.GetAxis("Mouse X");
             mouseY = Input.GetAxis("Mouse Y");
-            Debug.Log(forwardInput + sideInput + verticalInput + mouseX + mouseY);
             CheckRoll();
             if(vehicleInfo.InertialDampenersOn) { StopMovement(); }
         }
@@ -64,13 +65,37 @@ public class PlayerControl : MonoBehaviour
         transform.position = initialPosition;
         rb.velocity = new Vector3(0f, 0f, 0f);
         rb.transform.rotation = initialOrientation;
+        Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
     }
 
     private void Boost()
     {
-        if(Input.GetKey("f"))
+        if(Input.GetKey("f") && gaugeMeter >= vehicleInfo.GaugeCapacity && Time.time >= gameInfo.StartTime)
         {
-            rb.AddRelativeForce(new Vector3(0, 0, vehicleInfo.BoostSpeed));
+            boosting = true;
+            Debug.Log("Boosting");
+        }
+        if(boosting)
+        { 
+            rb.AddRelativeForce(new Vector3(0, 0, vehicleInfo.BoostSpeed * Time.deltaTime));
+            gaugeMeter = gaugeMeter - vehicleInfo.BoostConsumption * Time.deltaTime;
+            if(gaugeMeter <= 0)
+            { 
+                gaugeMeter = 0;
+                boosting = false;
+            }
+        }
+    }
+    
+    private void RegenerateGuage()
+    {
+        if(gaugeMeter < vehicleInfo.GaugeCapacity && !boosting)
+        {
+            gaugeMeter = gaugeMeter + vehicleInfo.GaugeFillSpeed * Time.deltaTime;
+        }
+        else if(gaugeMeter >= vehicleInfo.GaugeCapacity && !boosting)
+        {
+            gaugeMeter = vehicleInfo.GaugeCapacity;
         }
     }
 
@@ -129,8 +154,11 @@ public class PlayerControl : MonoBehaviour
         //　VehicleDataとGameDataを読めるようにする。変更しないでください
         vehicleInfo = new VehicleData(defaultInitializer);
         gameInfo = new GameData(gameDataInitializer);
+        
         initialPosition = transform.position;
         initialOrientation = rb.transform.rotation;
+        gaugeMeter = vehicleInfo.GaugeCapacity;
+        boosting = false;
     }
 
     // Update is called once per frame
@@ -138,6 +166,7 @@ public class PlayerControl : MonoBehaviour
     {
         MovePlayer();
         Boost();
-        Debug.Log(rb.velocity);
+        RegenerateGuage();
+        Debug.Log("Boost: " + gaugeMeter + "/" + vehicleInfo.GaugeCapacity);
     }
 }
