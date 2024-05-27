@@ -70,7 +70,7 @@ public class PlayerControl : MonoBehaviour
 
     private void Boost()
     {
-        if(Input.GetKey("f") && gaugeMeter >= vehicleInfo.GaugeCapacity && Time.time >= gameInfo.StartTime)
+        if(gaugeMeter >= vehicleInfo.GaugeCapacity && Time.time >= gameInfo.StartTime)
         {
             boosting = true;
             Debug.Log("Boosting");
@@ -165,7 +165,10 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         MovePlayer();
-        Boost();
+        if(Input.GetKey("f"))
+        {
+            Boost();
+        }
         RegenerateGuage();
         Debug.Log("Boost: " + gaugeMeter + "/" + vehicleInfo.GaugeCapacity);
     }
