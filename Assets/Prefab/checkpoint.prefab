@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 859772908920305543}
   - component: {fileID: 3539459085011172077}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: checkpoint
   m_TagString: hit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
