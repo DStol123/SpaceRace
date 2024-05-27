@@ -69,6 +69,16 @@ public class PlayerControl : MonoBehaviour
         Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
     }
 
+    private void ResetToCheckpoint()
+    {
+        Checkpoint CheckPoint;
+        GameObject obj = GameObject.Find("space-cart-1");
+        CheckPoint = obj.GetComponent<Checkpoint>();
+        transform.position = CheckPoint.checkpoint;
+        rb.velocity = new Vector3(0f, 0f, 0f);
+        rb.transform.rotation = initialOrientation;
+        Debug.Log("Vehicle Crashed. Reset to checkpoint. 衝突、リセットしました。");
+    }
     //When this method is called in update, the character's forward speed will increase
     //発動したらキャラの前の速度が上がる
     private void Boost() 
