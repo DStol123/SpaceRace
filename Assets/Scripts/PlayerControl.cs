@@ -59,7 +59,8 @@ public class PlayerControl : MonoBehaviour
             verticalInput = -1f * Mathf.Sign(transform.InverseTransformDirection(rb.velocity).y);
         }
     }
-
+    //When this method is called, the character will go back to the start of the course.
+    //Updateに ResetToStart();は発動したら、キャラがコースのスタートに戻る
     private void ResetToStart()
     {
         transform.position = initialPosition;
@@ -68,7 +69,9 @@ public class PlayerControl : MonoBehaviour
         Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
     }
 
-    private void Boost()
+    //When this method is called in update, the character's forward speed will increase
+    //発動したらキャラの前の速度が上がる
+    private void Boost() 
     {
         if(gaugeMeter >= vehicleInfo.GaugeCapacity && Time.time >= gameInfo.StartTime)
         {
@@ -86,8 +89,10 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }
-    
-    private void RegenerateGuage()
+
+    // This method gradually increases the boost charge
+    // 待ってたらブーストがまた使えるようになる
+    private void RegenerateGuage() 
     {
         if(gaugeMeter < vehicleInfo.GaugeCapacity && !boosting)
         {
