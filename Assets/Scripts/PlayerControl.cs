@@ -82,17 +82,21 @@ public class PlayerControl : MonoBehaviour
     }
     //When this method is called in update, the character's forward speed will increase
     //発動したらキャラの前の速度が上がる
-    private void Boost() 
+    private void CheckBoost()
     {
-        if(gaugeMeter >= vehicleInfo.GaugeCapacity && Time.time >= gameInfo.StartTime)
+        if(Input.GetKey("f") && gaugeMeter >= vehicleInfo.GaugeCapacity && Time.time >= gameInfo.StartTime)
         {
             boosting = true;
-            Debug.Log("Boosting");
         }
+    }
+
+    private void Boost() 
+    {
         if(boosting)
         { 
             rb.AddRelativeForce(new Vector3(0, 0, vehicleInfo.BoostSpeed * Time.deltaTime));
             gaugeMeter = gaugeMeter - vehicleInfo.BoostConsumption * Time.deltaTime;
+            Debug.Log("Boosting. ブースト中");
             if(gaugeMeter <= 0)
             { 
                 gaugeMeter = 0;
@@ -108,10 +112,12 @@ public class PlayerControl : MonoBehaviour
         if(gaugeMeter < vehicleInfo.GaugeCapacity && !boosting)
         {
             gaugeMeter = gaugeMeter + vehicleInfo.GaugeFillSpeed * Time.deltaTime;
+            Debug.Log("Boost: " + gaugeMeter + "/" + vehicleInfo.GaugeCapacity);
         }
         else if(gaugeMeter >= vehicleInfo.GaugeCapacity && !boosting)
         {
             gaugeMeter = vehicleInfo.GaugeCapacity;
+            Debug.Log("ブースト可能！");
         }
     }
 
@@ -181,11 +187,9 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         MovePlayer();
-        if(Input.GetKey("f"))
-        {
-            Boost();
-        }
+        CheckBoost();
+        Boost();
         RegenerateGuage();
-        Debug.Log("Boost: " + gaugeMeter + "/" + vehicleInfo.GaugeCapacity);
+        
     }
 }
