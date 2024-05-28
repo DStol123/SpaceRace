@@ -5,7 +5,7 @@ using UnityEngine;
 // This script allows other scripts to access the values stored in VehicleMovementInfoSO
 // このスクリプトは、他のスクリプトがVehicleMovementInfoSOの情報を読めるようにする
 
-public class VehicleData 
+public class VehicleData
 {
     private float forwardThrust;
     private float lateralThrust;
@@ -14,6 +14,10 @@ public class VehicleData
     private float accelerationDebuff = 1f;
     private bool inertialDampenersOn;
     private float boostSpeed;
+    private float damageResistance;
+    private float gaugeFillSpeed;
+    private float gaugeCapacity;
+    private float boostConsumption;
 
     public VehicleData(VehicleMovementInfoSO scriptableInit)
     {
@@ -24,6 +28,10 @@ public class VehicleData
         this.accelerationDebuff = scriptableInit.accelerationDebuff;
         this.inertialDampenersOn = scriptableInit.inertialDampenersOn;
         this.boostSpeed = scriptableInit.boostSpeed;
+        this.damageResistance = scriptableInit.damageResistance;
+        this.gaugeFillSpeed = scriptableInit.gaugeFillSpeed;
+        this.gaugeCapacity = scriptableInit.gaugeCapacity;
+        this.boostConsumption = scriptableInit.boostConsumption;
     }
 
     public float ForwardThrust
@@ -32,9 +40,9 @@ public class VehicleData
         set { forwardThrust = value; }
     }
     public float LateralThrust
-    {  
-        get { return lateralThrust; } 
-        set { lateralThrust = value; } 
+    {
+        get { return lateralThrust; }
+        set { lateralThrust = value; }
     }
     public float RotationSpeed
     {
@@ -53,12 +61,32 @@ public class VehicleData
     }
     public bool InertialDampenersOn
     {
-        get { return  inertialDampenersOn; }
-        set {  inertialDampenersOn = value;}
+        get { return inertialDampenersOn; }
+        set { inertialDampenersOn = value; }
     }
     public float BoostSpeed
     {
         get { return boostSpeed; }
         set { boostSpeed = value; }
+    }
+    public float DamageResistance
+    {
+        get { return damageResistance; }
+        set { damageResistance = value; }
+    }
+    public float GaugeFillSpeed
+    {
+        get { return gaugeFillSpeed; }
+        set { gaugeFillSpeed = value; }
+    }
+    public float GaugeCapacity
+    {
+        get { return gaugeCapacity; }
+        set { gaugeCapacity = value; }
+    }
+    public float BoostConsumption
+    {
+        get { return boostConsumption; }
+        set { boostConsumption = value; }
     }
 }
