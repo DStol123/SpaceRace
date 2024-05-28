@@ -69,6 +69,7 @@ public class PlayerControl : MonoBehaviour
         Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
     }
 
+    //When this method is called, the character will go back to the checkpoint
     private void ResetToCheckpoint()
     {
         Checkpoint CheckPoint;

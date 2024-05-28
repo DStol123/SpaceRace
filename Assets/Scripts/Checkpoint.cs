@@ -5,9 +5,20 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
     public Vector3 checkpoint;
-
     public GameObject checkPoint;
     public GameObject Player;
+    private int nowlaps = 0;
+    private int totallaps;
+    public Checkpoint(GameDataSO scriptableInit)//GameDataSO‚ÌtotalLaps‚ğæ“¾
+    {
+        this.totallaps = scriptableInit.totalLaps;
+    }
+
+    public int TotalLaps//‘‚«Š·‚¦‚é‚½‚ß‚ÌƒvƒƒOƒ‰ƒ€
+    {
+        get { return totallaps; }
+        set { totallaps = value; }
+    }
 
     void hitcheckpoint()
     {
@@ -24,6 +35,10 @@ public class Checkpoint : MonoBehaviour
         if (other.name == checkPoint.name)
         {
             checkpoint = Player.transform.position;
+        }
+        if (nowlaps == totallaps)
+        {
+            Debug.Log("GOAL!!");
         }
     }
 }
