@@ -151,7 +151,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.relativeVelocity.magnitude > vehicleInfo.DamageResistance)
         {
-            ResetToStart();
+            ResetToCheckpoint();
         }
     }
 

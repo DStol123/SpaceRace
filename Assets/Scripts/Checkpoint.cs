@@ -21,7 +21,7 @@ public class Checkpoint : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == Player.name)
+        if (other.name == checkPoint.name)
         {
             checkpoint = Player.transform.position;
         }
