@@ -6,14 +6,12 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
     private GameObject MainCamera;
-    private GameObject SubCamra;
+    private GameObject SubCamera;
     // Start is called before the first frame update
     void Start()
     {
         MainCamera = GetComponent<GameObject>();
-        SubCamra = GetComponent<GameObject>();
-         
-        
+        SubCamera = GetComponent<GameObject>();   
     }
 
     // Update is called once per frame
@@ -21,17 +19,15 @@ public class PlayerCamera : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            MainCamera setActive = false;
-            SubCamra.SetActive(true);
+            MainCamera.SetActive(false);
+            SubCamera.SetActive(true);
         }
         else
         {
             MainCamera.SetActive(true);
-            SubCamra.SetActive(false);
+            SubCamera.SetActive(false);
         }
        
 
-        }
-        
     }
 }
