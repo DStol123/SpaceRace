@@ -7,14 +7,6 @@ public class PlayerCamera : MonoBehaviour
 {
     public GameObject MainCamera;
     public GameObject RearCamera;
-    // Start is called before the first frame update
-    void Start()
-    {
-        MainCamera = GetComponent<GameObject>();
-        RearCamera = GetComponent<GameObject>();
-        MainCamera.SetActive(true);
-        RearCamera.SetActive(false);
-    }
 
     // Update is called once per frame
     void Update()
