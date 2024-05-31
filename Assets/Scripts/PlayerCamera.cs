@@ -21,7 +21,7 @@ public class PlayerCamera : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            MainCamera setActive = false;
+            MainCamera.SetActive (false);
             SubCamra.SetActive(true);
         }
         else
@@ -34,4 +34,3 @@ public class PlayerCamera : MonoBehaviour
         }
         
     }
-}
