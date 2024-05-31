@@ -15,4 +15,3 @@ MonoBehaviour:
   startTime: 1
   timeLimit: 0
   totalLaps: 0
-  respawnTime: 3
