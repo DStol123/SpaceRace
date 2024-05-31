@@ -16,7 +16,6 @@ public class PlayerCamera : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKey(KeyCode.LeftShift))
@@ -29,7 +28,7 @@ public class PlayerCamera : MonoBehaviour
         else
         {
             MainCamera.SetActive(true);
-            SubCamra.SetActive(false);
+            RearCamera.SetActive(false);
         }
        
 

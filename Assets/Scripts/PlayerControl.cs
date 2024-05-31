@@ -25,6 +25,8 @@ public class PlayerControl : MonoBehaviour
     private Quaternion initialOrientation;
     private float gaugeMeter;
     private bool boosting;
+    private float timeFromDeath;
+    private bool isAlive;
 
     // This method assigns user inputs into the input variables.
     // プレーヤーのインプットを変数にする。
@@ -41,7 +43,6 @@ public class PlayerControl : MonoBehaviour
             if(vehicleInfo.InertialDampenersOn) { StopMovement(); }
         }
     }
-
     // This method allows the vehicle to come to a stop automatically
     // 自動に止める
     private void StopMovement()
@@ -59,26 +60,30 @@ public class PlayerControl : MonoBehaviour
             verticalInput = -1f * Mathf.Sign(transform.InverseTransformDirection(rb.velocity).y);
         }
     }
-    //When this method is called, the character will go back to the start of the course.
-    //Updateに ResetToStart();は発動したら、キャラがコースのスタートに戻る
-    private void ResetToStart()
-    {
-        transform.position = initialPosition;
-        rb.velocity = new Vector3(0f, 0f, 0f);
-        rb.transform.rotation = initialOrientation;
-        Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
-    }
 
     //When this method is called, the character will go back to the checkpoint
     private void ResetToCheckpoint()
     {
-        Checkpoint CheckPoint;
-        GameObject obj = GameObject.Find("space-cart-1");
-        CheckPoint = obj.GetComponent<Checkpoint>();
-        transform.position = CheckPoint.checkpoint;
-        rb.velocity = new Vector3(0f, 0f, 0f);
-        rb.transform.rotation = initialOrientation;
-        Debug.Log("Vehicle Crashed. Reset to checkpoint. 衝突、リセットしました。");
+        if(!isAlive)
+        {
+            rb.velocity = new Vector3(0f, 0f, 0f);
+            if (timeFromDeath <= gameInfo.RespawnTime)
+            {
+                timeFromDeath += Time.deltaTime;
+                Debug.Log("Time until respawn: " + (gameInfo.RespawnTime - timeFromDeath));
+            }
+            else if (timeFromDeath >= gameInfo.RespawnTime)
+            {
+                Checkpoint CheckPoint;
+                GameObject obj = GameObject.Find("space-cart-1");
+                CheckPoint = obj.GetComponent<Checkpoint>();
+                transform.position = CheckPoint.checkpoint;
+                rb.transform.rotation = initialOrientation;
+                timeFromDeath = 0f;
+                isAlive = true;
+            }
+            Debug.Log("Vehicle Crashed. Reset to checkpoint. 衝突、リセットしました。");
+        }
     }
     //When this method is called in update, the character's forward speed will increase
     //発動したらキャラの前の速度が上がる
@@ -158,7 +163,8 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.relativeVelocity.magnitude > vehicleInfo.DamageResistance)
         {
-            ResetToCheckpoint();
+            isAlive = false;
+            timeFromDeath = 0f;
         }
     }
 
@@ -181,15 +187,21 @@ public class PlayerControl : MonoBehaviour
         initialOrientation = rb.transform.rotation;
         gaugeMeter = vehicleInfo.GaugeCapacity;
         boosting = false;
+        isAlive = true;
+        timeFromDeath = 0f;
+        Debug.Log(gameInfo.RespawnTime);
     }
 
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
-        CheckBoost();
-        Boost();
-        RegenerateGuage();
-        
+        if(isAlive)
+        {
+            MovePlayer();
+            CheckBoost();
+            Boost();
+            RegenerateGuage();
+        }
+        ResetToCheckpoint();
     }
 }
