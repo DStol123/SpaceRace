@@ -10,19 +10,21 @@ public class PlayerCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainCamera = GetComponent<GameObject>();
-        SubCamra = GetComponent<GameObject>();
-         
-        
+        SubCamra.SetActive(false);
+        MainCamera = GameObject.Find("MainCamera");
+        SubCamra = GameObject.Find("SubCamera");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            MainCamera setActive = false;
+            Debug.Log("push");
+            MainCamera.SetActive(false);
             SubCamra.SetActive(true);
+           
         }
         else
         {
@@ -33,5 +35,4 @@ public class PlayerCamera : MonoBehaviour
 
         }
         
-    }
 }
