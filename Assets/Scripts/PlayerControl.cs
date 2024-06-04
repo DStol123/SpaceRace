@@ -88,7 +88,6 @@ public class PlayerControl : MonoBehaviour
         //When this method is called, the character will go back to the previous checkpoint
         if (!isAlive)
         {
-            rb.velocity = new Vector3(0f, 0f, 0f);
             if (timeFromDeath <= gameInfo.RespawnTime)
             {
                 timeFromDeath += Time.deltaTime;
@@ -107,6 +106,7 @@ public class PlayerControl : MonoBehaviour
                     ResetToStart();
                 }
                 isAlive = true;
+                rb.velocity = new Vector3(0f, 0f, 0f);
             }
             Debug.Log("Vehicle Crashed. Reset to checkpoint. 衝突、リセットしました。");
         }
@@ -253,6 +253,7 @@ public class PlayerControl : MonoBehaviour
     {
         if(isAlive)
         {
+            // The player should only move if they are alive
             MovePlayer();
             CheckBoost();
             Boost();
