@@ -99,7 +99,6 @@ public class PlayerControl : MonoBehaviour
                 {
                     transform.position = CheckPoint.checkpoint;
                     rb.transform.rotation = initialOrientation;
-                    timeFromDeath = 0f;
                 }
                 else
                 {
@@ -107,6 +106,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 isAlive = true;
                 rb.velocity = new Vector3(0f, 0f, 0f);
+                timeFromDeath = 0f;
             }
             Debug.Log("Vehicle Crashed. Reset to checkpoint. 衝突、リセットしました。");
         }
