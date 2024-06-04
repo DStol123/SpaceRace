@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0aecb2846a09d450a9e28cbb7bf1ef80, type: 3}
-  m_Name: Vehicle1
+  m_Name: Rocket
   m_EditorClassIdentifier: 
-  forwardThrust: 200
-  lateralThrust: 250
-  rotationSpeed: 80
+  forwardThrust: 300
+  lateralThrust: 150
+  rotationSpeed: 150
   rollSpeed: 100
   accelerationDebuff: 1
   inertialDampenersOn: 1
-  boostSpeed: 1000
+  boostSpeed: 1500
   damageResistance: 50
   gaugeFillSpeed: 15
   gaugeCapacity: 100
