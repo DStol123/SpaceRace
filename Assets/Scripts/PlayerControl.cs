@@ -110,10 +110,6 @@ public class PlayerControl : MonoBehaviour
             }
             Debug.Log("Vehicle Crashed. Reset to checkpoint. 衝突、リセットしました。");
         }
-        else if (!isAlive && CheckPoint == null)
-        {
-            ResetToStart();
-        }
     }
 
     // These variables deal with boosting
