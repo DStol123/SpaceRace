@@ -21,12 +21,6 @@ public class PlayerControl : MonoBehaviour
     private float mouseX;
     private float mouseY;
     private float roll;
-    private Vector3 initialPosition = new Vector3();
-    private Quaternion initialOrientation;
-    private float gaugeMeter;
-    private bool boosting;
-    private float timeFromDeath;
-    private bool isAlive;
 
     // This method assigns user inputs into the input variables.
     // プレーヤーのインプットを変数にする。
@@ -44,10 +38,11 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    // This method allows the vehicle to come to a stop automatically
-    // 自動に止める
+    
     private void StopMovement()
     {
+        // This method allows the vehicle to come to a stop automatically
+        // 自動に止める
         if (forwardInput == 0f && Mathf.Sign(transform.InverseTransformDirection(rb.velocity).z) != 0)
         {
             forwardInput = -1f * Mathf.Sign(transform.InverseTransformDirection(rb.velocity).z);
@@ -61,19 +56,36 @@ public class PlayerControl : MonoBehaviour
             verticalInput = -1f * Mathf.Sign(transform.InverseTransformDirection(rb.velocity).y);
         }
     }
-    //When this method is called, the character will go back to the start of the course.
-    //Updateに ResetToStart();は発動したら、キャラがコースのスタートに戻る
+
+    // These variables store the initial position information
+    private Vector3 initialPosition = new Vector3();
+    private Quaternion initialOrientation;
+
+    // These variables deal with checkpoints and resetting
+    private float timeFromDeath;
+    private bool isAlive;
+    Checkpoint CheckPoint;
+
+    
     private void ResetToStart()
     {
+        //When this method is called, the character will go back to the start of the course.
+        //Updateに ResetToStart();は発動したら、キャラがコースのスタートに戻る
         transform.position = initialPosition;
         rb.velocity = new Vector3(0f, 0f, 0f);
         rb.transform.rotation = initialOrientation;
-        Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
+        isAlive = true;
     }
 
-    //When this method is called, the character will go back to the checkpoint
+    private void AddCheckpoint()
+    {
+        GameObject obj = GameObject. FindGameObjectWithTag("hit");
+        CheckPoint = obj.GetComponent<Checkpoint>();
+    }
+
     private void ResetToCheckpoint()
     {
+        //When this method is called, the character will go back to the previous checkpoint
         if (!isAlive)
         {
             rb.velocity = new Vector3(0f, 0f, 0f);
@@ -84,21 +96,33 @@ public class PlayerControl : MonoBehaviour
             }
             else if (timeFromDeath >= gameInfo.RespawnTime)
             {
-                Checkpoint CheckPoint;
-                GameObject obj = GameObject.Find("space-cart-1");
-                CheckPoint = obj.GetComponent<Checkpoint>();
-                transform.position = CheckPoint.checkpoint;
-                rb.transform.rotation = initialOrientation;
-                timeFromDeath = 0f;
+                if (CheckPoint != null)
+                {
+                    transform.position = CheckPoint.checkpoint;
+                    rb.transform.rotation = initialOrientation;
+                    timeFromDeath = 0f;
+                }
+                else
+                {
+                    ResetToStart();
+                }
                 isAlive = true;
             }
             Debug.Log("Vehicle Crashed. Reset to checkpoint. 衝突、リセットしました。");
         }
+        else if (!isAlive && CheckPoint == null)
+        {
+            ResetToStart();
+        }
     }
-        //When this method is called in update, the character's forward speed will increase
-        //発動したらキャラの前の速度が上がる
-        private void CheckBoost()
+
+    // These variables deal with boosting
+    private float gaugeMeter;
+    private bool boosting;
+
+    private void CheckBoost()
     {
+    // This method checks if the boost key is being pressed, if it is, it will set boosting to true
         if(Input.GetKey("f") && gaugeMeter >= vehicleInfo.GaugeCapacity && Time.time >= gameInfo.StartTime)
         {
             boosting = true;
@@ -107,6 +131,7 @@ public class PlayerControl : MonoBehaviour
 
     private void Boost() 
     {
+    // This method adds forward speed to a character
         if(boosting)
         { 
             rb.AddRelativeForce(new Vector3(0, 0, vehicleInfo.BoostSpeed * Time.deltaTime));
@@ -120,11 +145,11 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    // This method gradually increases the boost charge
-    // 待ってたらブーストがまた使えるようになる
     private void RegenerateGuage() 
     {
-        if(gaugeMeter < vehicleInfo.GaugeCapacity && !boosting)
+    // This method gradually increases the boost charge
+    // 待ってたらブーストがまた使えるようになる
+        if (gaugeMeter < vehicleInfo.GaugeCapacity && !boosting)
         {
             gaugeMeter = gaugeMeter + vehicleInfo.GaugeFillSpeed * Time.deltaTime;
             Debug.Log("Boost: " + gaugeMeter + "/" + vehicleInfo.GaugeCapacity);
@@ -136,10 +161,10 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    // This method creates a roll axis.
-    // ローリングのインプットを読む
     private void CheckRoll()
     {
+        // This method creates a roll axis.
+        // ローリングのインプットを読む
         if (Input.GetKey("q"))
         {
             roll = 1f;
@@ -153,11 +178,11 @@ public class PlayerControl : MonoBehaviour
             roll = 0;
         }
     }
-
-    // This method transforms the input variables into ingame movement.
-    // プレーヤーのインプットを動きにする
+    
     private void MovePlayer()
     {
+    // This method transforms the input variables into ingame movement.
+    // プレーヤーのインプットを動きにする
         CheckInput();
         float x = sideInput * vehicleInfo.LateralThrust;
         float y = verticalInput * vehicleInfo.LateralThrust;
@@ -169,19 +194,38 @@ public class PlayerControl : MonoBehaviour
         transform.localRotation = transform.localRotation * Quaternion.Euler(new Vector3(-rotX, rotY, rotZ) * Time.deltaTime / vehicleInfo.AccelerationDebuff); //Add rotation. 回る
     }
 
+    // This variable deals with air resistance
+    private Vector3 airResistanceForce = new Vector3();
+
+    private void AddAirResistanceForce()
+    {
+    // This slows down the character depending on the air density in the course
+        airResistanceForce = rb.velocity * gameInfo.AirDensity;
+        rb.AddForce(airResistanceForce * Time.deltaTime);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.relativeVelocity.magnitude > vehicleInfo.DamageResistance)
+    // This method deals with all collisions
+        if (collision.relativeVelocity.magnitude > vehicleInfo.DamageResistance && collision.gameObject.tag != "Item")
         {
+        // This calls the reset method if the character collides with something at high speeds
             isAlive = false;
             ResetToCheckpoint();
+            Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
+        }
+        else if(collision.gameObject.tag == "nitro")
+        {
+            gaugeMeter = vehicleInfo.GaugeCapacity;
+            boosting = true;
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); // Sets the object the script is attached to as the rigidbody in this script
+        // Sets the object the script is attached to as the rigidbody in this script
+        rb = GetComponent<Rigidbody>();
 
         // Hides the cursor and puts it in the middle of the screen.　
         // カーソルを見えないようにして、画面の中央に届く。
@@ -192,9 +236,13 @@ public class PlayerControl : MonoBehaviour
         //　VehicleDataとGameDataを読めるようにする。変更しないでください
         vehicleInfo = new VehicleData(defaultInitializer);
         gameInfo = new GameData(gameDataInitializer);
-        
+
+        // Sets the initial position and rotation data for the player
         initialPosition = transform.position;
         initialOrientation = rb.transform.rotation;
+
+        // Makes the boost gauge full, makes sure the player is not boosting automatically at start
+        // and makes sure the player is alive
         gaugeMeter = vehicleInfo.GaugeCapacity;
         boosting = false;
         isAlive = true;
@@ -209,7 +257,12 @@ public class PlayerControl : MonoBehaviour
             CheckBoost();
             Boost();
             RegenerateGuage();
+            AddCheckpoint();
         }
         ResetToCheckpoint();
+        if(gameInfo.AirDensity > 0)
+        {
+            AddAirResistanceForce();
+        }
     }
 }

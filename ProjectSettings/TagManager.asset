@@ -6,6 +6,8 @@ TagManager:
   tags:
   - hit
   - RearCamera
+  - nitro
+  - Item
   layers:
   - Default
   - TransparentFX

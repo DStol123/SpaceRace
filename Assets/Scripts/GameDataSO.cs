@@ -12,4 +12,5 @@ public class GameDataSO : ScriptableObject
     public float timeLimit; //レースが終わる時間
     public int totalLaps; //何回でクリアする
     public float respawnTime;
+    public float airDensity;
 }

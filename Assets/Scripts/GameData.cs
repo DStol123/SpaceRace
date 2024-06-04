@@ -12,6 +12,7 @@ public class GameData
     private float timeLimit;
     private int totalLaps;
     private float respawnTime;
+    private float airDensity;
 
 // This block accesses the variables in GameDataSO and stores them here.
 //　これはGameDataSOの変数
@@ -21,6 +22,7 @@ public class GameData
         this.timeLimit = scriptableInit.timeLimit;
         this.totalLaps = scriptableInit.totalLaps;
         this.respawnTime = scriptableInit.respawnTime;
+        this.airDensity = scriptableInit.airDensity;
     }
 
 //Getters and setters allow other scripts to access and change these variables
@@ -45,5 +47,10 @@ public class GameData
     {
         get { return respawnTime; }
         set { respawnTime = value; }
+    }
+    public float AirDensity
+    {
+        get { return airDensity; }
+        set { airDensity = value; }
     }
 }
