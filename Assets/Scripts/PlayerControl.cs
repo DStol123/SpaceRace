@@ -247,19 +247,22 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isAlive)
+        if(!PauseMenu.isPaused)
         {
-            // The player should only move if they are alive
-            MovePlayer();
-            CheckBoost();
-            Boost();
-            RegenerateGuage();
-            AddCheckpoint();
-        }
-        ResetToCheckpoint();
-        if(gameInfo.AirDensity > 0)
-        {
-            AddAirResistanceForce();
+            if (isAlive)
+            {
+                // The player should only move if they are alive
+                MovePlayer();
+                CheckBoost();
+                Boost();
+                RegenerateGuage();
+                AddCheckpoint();
+            }
+            ResetToCheckpoint();
+            if (gameInfo.AirDensity > 0)
+            {
+                AddAirResistanceForce();
+            }
         }
     }
 }
