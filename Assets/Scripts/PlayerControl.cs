@@ -21,7 +21,6 @@ public class PlayerControl : MonoBehaviour
     private float mouseX;
     private float mouseY;
     private float roll;
-    private bool hit;
 
     // This method assigns user inputs into the input variables.
     // プレーヤーのインプットを変数にする。
@@ -80,7 +79,7 @@ public class PlayerControl : MonoBehaviour
 
     private void AddCheckpoint()
     {
-        GameObject obj = GameObject. FindGameObjectWithTag("Player");
+        GameObject obj = GameObject. FindGameObjectWithTag("hit");
         CheckPoint = obj.GetComponent<Checkpoint>();
     }
 
@@ -96,7 +95,7 @@ public class PlayerControl : MonoBehaviour
             }
             else if (timeFromDeath >= gameInfo.RespawnTime)
             {
-                if (hit == true)
+                if (CheckPoint != null)
                 {
                     transform.position = CheckPoint.checkpoint;
                     rb.transform.rotation = initialOrientation;
@@ -133,7 +132,7 @@ public class PlayerControl : MonoBehaviour
         { 
             rb.AddRelativeForce(new Vector3(0, 0, vehicleInfo.BoostSpeed * Time.deltaTime));
             gaugeMeter = gaugeMeter - vehicleInfo.BoostConsumption * Time.deltaTime;
-         //   Debug.Log("Boosting. ブースト中");
+            Debug.Log("Boosting. ブースト中");
             if(gaugeMeter <= 0)
             { 
                 gaugeMeter = 0;
@@ -149,12 +148,12 @@ public class PlayerControl : MonoBehaviour
         if (gaugeMeter < vehicleInfo.GaugeCapacity && !boosting)
         {
             gaugeMeter = gaugeMeter + vehicleInfo.GaugeFillSpeed * Time.deltaTime;
-         //   Debug.Log("Boost: " + gaugeMeter + "/" + vehicleInfo.GaugeCapacity);
+            Debug.Log("Boost: " + gaugeMeter + "/" + vehicleInfo.GaugeCapacity);
         }
         else if(gaugeMeter >= vehicleInfo.GaugeCapacity && !boosting)
         {
             gaugeMeter = vehicleInfo.GaugeCapacity;
-       //     Debug.Log("ブースト可能！");
+            Debug.Log("ブースト可能！");
         }
     }
 
@@ -218,15 +217,6 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "hit")
-        {
-            hit = true;
-            Debug.Log(hit);
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -252,7 +242,6 @@ public class PlayerControl : MonoBehaviour
         gaugeMeter = vehicleInfo.GaugeCapacity;
         boosting = false;
         isAlive = true;
-        hit = false;
     }
 
     // Update is called once per frame
