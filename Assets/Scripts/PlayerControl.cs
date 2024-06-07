@@ -133,7 +133,7 @@ public class PlayerControl : MonoBehaviour
         { 
             rb.AddRelativeForce(new Vector3(0, 0, vehicleInfo.BoostSpeed * Time.deltaTime));
             gaugeMeter = gaugeMeter - vehicleInfo.BoostConsumption * Time.deltaTime;
-            Debug.Log("Boosting. ブースト中");
+         //   Debug.Log("Boosting. ブースト中");
             if(gaugeMeter <= 0)
             { 
                 gaugeMeter = 0;
@@ -149,12 +149,12 @@ public class PlayerControl : MonoBehaviour
         if (gaugeMeter < vehicleInfo.GaugeCapacity && !boosting)
         {
             gaugeMeter = gaugeMeter + vehicleInfo.GaugeFillSpeed * Time.deltaTime;
-            Debug.Log("Boost: " + gaugeMeter + "/" + vehicleInfo.GaugeCapacity);
+         //   Debug.Log("Boost: " + gaugeMeter + "/" + vehicleInfo.GaugeCapacity);
         }
         else if(gaugeMeter >= vehicleInfo.GaugeCapacity && !boosting)
         {
             gaugeMeter = vehicleInfo.GaugeCapacity;
-            Debug.Log("ブースト可能！");
+       //     Debug.Log("ブースト可能！");
         }
     }
 
@@ -223,6 +223,7 @@ public class PlayerControl : MonoBehaviour
         if(other.gameObject.tag == "hit")
         {
             hit = true;
+            Debug.Log(hit);
         }
     }
 
