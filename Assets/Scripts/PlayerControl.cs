@@ -21,7 +21,6 @@ public class PlayerControl : MonoBehaviour
     private float mouseX;
     private float mouseY;
     private float roll;
-    private bool hit;
 
     // This method assigns user inputs into the input variables.
     // プレーヤーのインプットを変数にする。
@@ -80,7 +79,7 @@ public class PlayerControl : MonoBehaviour
 
     private void AddCheckpoint()
     {
-        GameObject obj = GameObject. FindGameObjectWithTag("Player");
+        GameObject obj = GameObject. FindGameObjectWithTag("hit");
         CheckPoint = obj.GetComponent<Checkpoint>();
     }
 
@@ -96,7 +95,7 @@ public class PlayerControl : MonoBehaviour
             }
             else if (timeFromDeath >= gameInfo.RespawnTime)
             {
-                if (hit == true)
+                if (CheckPoint != null)
                 {
                     transform.position = CheckPoint.checkpoint;
                     rb.transform.rotation = initialOrientation;
