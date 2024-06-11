@@ -107,6 +107,7 @@ public class PlayerControl : MonoBehaviour
                 isAlive = true;
                 rb.velocity = new Vector3(0f, 0f, 0f);
                 timeFromDeath = 0f;
+                boosting = false;
             }
             Debug.Log("Vehicle Crashed. Reset to checkpoint. 衝突、リセットしました。");
         }
@@ -215,9 +216,14 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.gameObject.CompareTag("nitro"))
         {
-            other.gameObject.SetActive(false);
             gaugeMeter = vehicleInfo.GaugeCapacity;
         }
+        else if(other.gameObject.CompareTag("Bomb"))
+        {
+            isAlive = false;
+            ResetToCheckpoint();
+        }
+        other.gameObject.SetActive(false);
     }
 
     // Start is called before the first frame update
