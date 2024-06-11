@@ -203,17 +203,20 @@ public class PlayerControl : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
     // This method deals with all collisions
-        if (collision.relativeVelocity.magnitude > vehicleInfo.DamageResistance && collision.gameObject.tag != "Item")
+        if (collision.relativeVelocity.magnitude > vehicleInfo.DamageResistance && collision.gameObject.tag != "nitro")
         {
         // This calls the reset method if the character collides with something at high speeds
             isAlive = false;
             ResetToCheckpoint();
             Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
         }
-        else if(collision.gameObject.tag == "nitro")
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("nitro"))
         {
+            other.gameObject.SetActive(false);
             gaugeMeter = vehicleInfo.GaugeCapacity;
-            boosting = true;
         }
     }
 
