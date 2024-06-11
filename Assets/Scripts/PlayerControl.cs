@@ -21,7 +21,6 @@ public class PlayerControl : MonoBehaviour
     private float mouseX;
     private float mouseY;
     private float roll;
-    private bool hit;
 
     // This method assigns user inputs into the input variables.
     // プレーヤーのインプットを変数にする。
@@ -80,7 +79,7 @@ public class PlayerControl : MonoBehaviour
 
     private void AddCheckpoint()
     {
-        GameObject obj = GameObject. FindGameObjectWithTag("Player");
+        GameObject obj = GameObject. FindGameObjectWithTag("hit");
         CheckPoint = obj.GetComponent<Checkpoint>();
     }
 
@@ -96,7 +95,7 @@ public class PlayerControl : MonoBehaviour
             }
             else if (timeFromDeath >= gameInfo.RespawnTime)
             {
-                if (hit == true)
+                if (CheckPoint != null)
                 {
                     transform.position = CheckPoint.checkpoint;
                     rb.transform.rotation = initialOrientation;
@@ -108,6 +107,7 @@ public class PlayerControl : MonoBehaviour
                 isAlive = true;
                 rb.velocity = new Vector3(0f, 0f, 0f);
                 timeFromDeath = 0f;
+                boosting = false;
             }
             Debug.Log("Vehicle Crashed. Reset to checkpoint. 衝突、リセットしました。");
         }
@@ -204,26 +204,26 @@ public class PlayerControl : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
     // This method deals with all collisions
-        if (collision.relativeVelocity.magnitude > vehicleInfo.DamageResistance && collision.gameObject.tag != "Item")
+        if (collision.relativeVelocity.magnitude > vehicleInfo.DamageResistance && collision.gameObject.tag != "nitro")
         {
         // This calls the reset method if the character collides with something at high speeds
             isAlive = false;
             ResetToCheckpoint();
             Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
         }
-        else if(collision.gameObject.tag == "nitro")
-        {
-            gaugeMeter = vehicleInfo.GaugeCapacity;
-            boosting = true;
-        }
     }
-
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "hit")
+        if (other.gameObject.CompareTag("nitro"))
         {
-            hit = true;
+            gaugeMeter = vehicleInfo.GaugeCapacity;
         }
+        else if(other.gameObject.CompareTag("Bomb"))
+        {
+            isAlive = false;
+            ResetToCheckpoint();
+        }
+        other.gameObject.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -251,7 +251,6 @@ public class PlayerControl : MonoBehaviour
         gaugeMeter = vehicleInfo.GaugeCapacity;
         boosting = false;
         isAlive = true;
-        hit = false;
     }
 
     // Update is called once per frame
