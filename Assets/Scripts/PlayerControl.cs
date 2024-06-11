@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
@@ -224,6 +226,10 @@ public class PlayerControl : MonoBehaviour
             isAlive = false;
             ResetToCheckpoint();
         }
+        else if(other.gameObject.CompareTag("hit"))
+        {
+            initialPosition = transform.position;
+        }
         other.gameObject.SetActive(false);
     }
 
@@ -252,6 +258,7 @@ public class PlayerControl : MonoBehaviour
         gaugeMeter = vehicleInfo.GaugeCapacity;
         boosting = false;
         isAlive = true;
+        hit = false;
     }
 
     // Update is called once per frame
