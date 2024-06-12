@@ -23,7 +23,6 @@ public class PlayerControl : MonoBehaviour
     private float mouseX;
     private float mouseY;
     private float roll;
-    private bool hit;
 
     // This method assigns user inputs into the input variables.
     // プレーヤーのインプットを変数にする。
@@ -63,13 +62,13 @@ public class PlayerControl : MonoBehaviour
     // These variables store the initial position information
     private Vector3 initialPosition = new Vector3();
     private Quaternion initialOrientation;
+    private Vector3 checkpointPosition = new Vector3();
+    private Quaternion checkpointOrientation;
 
     // These variables deal with checkpoints and resetting
     private float timeFromDeath;
     private bool isAlive;
-    Checkpoint CheckPoint;
 
-    
     private void ResetToStart()
     {
         //When this method is called, the character will go back to the start of the course.
@@ -78,12 +77,6 @@ public class PlayerControl : MonoBehaviour
         rb.velocity = new Vector3(0f, 0f, 0f);
         rb.transform.rotation = initialOrientation;
         isAlive = true;
-    }
-
-    private void AddCheckpoint()
-    {
-        GameObject obj = GameObject. FindGameObjectWithTag("Player");
-        CheckPoint = obj.GetComponent<Checkpoint>();
     }
 
     private void ResetToCheckpoint()
@@ -98,15 +91,8 @@ public class PlayerControl : MonoBehaviour
             }
             else if (timeFromDeath >= gameInfo.RespawnTime)
             {
-                if (hit == true)
-                {
-                    transform.position = CheckPoint.checkpoint;
-                    rb.transform.rotation = initialOrientation;
-                }
-                else
-                {
-                    ResetToStart();
-                }
+                transform.position = checkpointPosition;
+                rb.transform.rotation = checkpointOrientation;
                 isAlive = true;
                 rb.velocity = new Vector3(0f, 0f, 0f);
                 timeFromDeath = 0f;
@@ -228,7 +214,8 @@ public class PlayerControl : MonoBehaviour
         }
         else if(other.gameObject.CompareTag("hit"))
         {
-            initialPosition = transform.position;
+            checkpointPosition = transform.position;
+            checkpointOrientation = rb.transform.rotation;
         }
         other.gameObject.SetActive(false);
     }
@@ -252,13 +239,14 @@ public class PlayerControl : MonoBehaviour
         // Sets the initial position and rotation data for the player
         initialPosition = transform.position;
         initialOrientation = rb.transform.rotation;
+        checkpointPosition = initialPosition;
+        checkpointOrientation = rb.transform.rotation;
 
         // Makes the boost gauge full, makes sure the player is not boosting automatically at start
         // and makes sure the player is alive
         gaugeMeter = vehicleInfo.GaugeCapacity;
         boosting = false;
         isAlive = true;
-        hit = false;
     }
 
     // Update is called once per frame
