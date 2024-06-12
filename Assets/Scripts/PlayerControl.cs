@@ -93,6 +93,9 @@ public class PlayerControl : MonoBehaviour
             {
                 transform.position = checkpointPosition;
                 rb.transform.rotation = checkpointOrientation;
+
+                ResetToStart();
+
                 isAlive = true;
                 rb.velocity = new Vector3(0f, 0f, 0f);
                 timeFromDeath = 0f;
@@ -261,8 +264,7 @@ public class PlayerControl : MonoBehaviour
                 CheckBoost();
                 Boost();
                 RegenerateGuage();
-                AddCheckpoint();
-            }
+              }
             ResetToCheckpoint();
             if (gameInfo.AirDensity > 0)
             {
