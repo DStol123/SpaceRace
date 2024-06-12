@@ -23,7 +23,6 @@ public class PlayerControl : MonoBehaviour
     private float mouseX;
     private float mouseY;
     private float roll;
-    private bool hit;
 
     // This method assigns user inputs into the input variables.
     // プレーヤーのインプットを変数にする。
@@ -98,15 +97,7 @@ public class PlayerControl : MonoBehaviour
             }
             else if (timeFromDeath >= gameInfo.RespawnTime)
             {
-                if (hit == true)
-                {
-                    transform.position = CheckPoint.checkpoint;
-                    rb.transform.rotation = initialOrientation;
-                }
-                else
-                {
-                    ResetToStart();
-                }
+                ResetToStart();
                 isAlive = true;
                 rb.velocity = new Vector3(0f, 0f, 0f);
                 timeFromDeath = 0f;
@@ -258,7 +249,6 @@ public class PlayerControl : MonoBehaviour
         gaugeMeter = vehicleInfo.GaugeCapacity;
         boosting = false;
         isAlive = true;
-        hit = false;
     }
 
     // Update is called once per frame
