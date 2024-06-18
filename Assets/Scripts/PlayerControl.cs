@@ -92,9 +92,7 @@ public class PlayerControl : MonoBehaviour
             else if (timeFromDeath >= gameInfo.RespawnTime)
             {
                 transform.position = checkpointPosition;
-                rb.transform.rotation = checkpointOrientation;
-
-                ResetToStart();
+                rb.transform.rotation = initialOrientation;
 
                 isAlive = true;
                 rb.velocity = new Vector3(0f, 0f, 0f);
