@@ -24,5 +24,9 @@ public class PlayerCamera : MonoBehaviour
        
 
     }
-        
+    void Start()
+    {
+        MainCamera.SetActive(true);
+        RearCamera.SetActive(false);
+    }
 }

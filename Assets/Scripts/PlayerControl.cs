@@ -68,6 +68,11 @@ public class PlayerControl : MonoBehaviour
     // These variables deal with checkpoints and resetting
     private float timeFromDeath;
     private bool isAlive;
+    public bool IsAlive
+    {
+        get { return isAlive; }
+        set { isAlive = value; }
+    }
 
     private void ResetToStart()
     {
@@ -207,18 +212,20 @@ public class PlayerControl : MonoBehaviour
         if (other.gameObject.CompareTag("nitro"))
         {
             gaugeMeter = vehicleInfo.GaugeCapacity;
+            other.gameObject.SetActive(false);
         }
         else if(other.gameObject.CompareTag("Bomb"))
         {
             isAlive = false;
             ResetToCheckpoint();
+            other.gameObject.SetActive(false);
         }
         else if(other.gameObject.CompareTag("hit"))
         {
             checkpointPosition = transform.position;
             checkpointOrientation = rb.transform.rotation;
         }
-        other.gameObject.SetActive(false);
+        
     }
 
     // Start is called before the first frame update
