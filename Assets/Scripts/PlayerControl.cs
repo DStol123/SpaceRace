@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
@@ -60,13 +62,18 @@ public class PlayerControl : MonoBehaviour
     // These variables store the initial position information
     private Vector3 initialPosition = new Vector3();
     private Quaternion initialOrientation;
+    private Vector3 checkpointPosition = new Vector3();
+    private Quaternion checkpointOrientation;
 
     // These variables deal with checkpoints and resetting
     private float timeFromDeath;
     private bool isAlive;
-    Checkpoint CheckPoint;
+    public bool IsAlive
+    {
+        get { return isAlive; }
+        set { isAlive = value; }
+    }
 
-    
     private void ResetToStart()
     {
         //When this method is called, the character will go back to the start of the course.
@@ -75,12 +82,6 @@ public class PlayerControl : MonoBehaviour
         rb.velocity = new Vector3(0f, 0f, 0f);
         rb.transform.rotation = initialOrientation;
         isAlive = true;
-    }
-
-    private void AddCheckpoint()
-    {
-        GameObject obj = GameObject. FindGameObjectWithTag("hit");
-        CheckPoint = obj.GetComponent<Checkpoint>();
     }
 
     private void ResetToCheckpoint()
@@ -95,15 +96,9 @@ public class PlayerControl : MonoBehaviour
             }
             else if (timeFromDeath >= gameInfo.RespawnTime)
             {
-                if (CheckPoint != null)
-                {
-                    transform.position = CheckPoint.checkpoint;
-                    rb.transform.rotation = initialOrientation;
-                }
-                else
-                {
-                    ResetToStart();
-                }
+                transform.position = checkpointPosition;
+                rb.transform.rotation = initialOrientation;
+
                 isAlive = true;
                 rb.velocity = new Vector3(0f, 0f, 0f);
                 timeFromDeath = 0f;
@@ -217,13 +212,20 @@ public class PlayerControl : MonoBehaviour
         if (other.gameObject.CompareTag("nitro"))
         {
             gaugeMeter = vehicleInfo.GaugeCapacity;
+            other.gameObject.SetActive(false);
         }
         else if(other.gameObject.CompareTag("Bomb"))
         {
             isAlive = false;
             ResetToCheckpoint();
+            other.gameObject.SetActive(false);
         }
-        other.gameObject.SetActive(false);
+        else if(other.gameObject.CompareTag("hit"))
+        {
+            checkpointPosition = transform.position;
+            checkpointOrientation = rb.transform.rotation;
+        }
+        
     }
 
     // Start is called before the first frame update
@@ -245,6 +247,8 @@ public class PlayerControl : MonoBehaviour
         // Sets the initial position and rotation data for the player
         initialPosition = transform.position;
         initialOrientation = rb.transform.rotation;
+        checkpointPosition = initialPosition;
+        checkpointOrientation = rb.transform.rotation;
 
         // Makes the boost gauge full, makes sure the player is not boosting automatically at start
         // and makes sure the player is alive
@@ -265,8 +269,7 @@ public class PlayerControl : MonoBehaviour
                 CheckBoost();
                 Boost();
                 RegenerateGuage();
-                AddCheckpoint();
-            }
+              }
             ResetToCheckpoint();
             if (gameInfo.AirDensity > 0)
             {

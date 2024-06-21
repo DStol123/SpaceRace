@@ -11,6 +11,8 @@ TagManager:
   - English
   - Nihongo
   - Bomb
+  - touchtokill
+  - blackHole
   layers:
   - Default
   - TransparentFX
