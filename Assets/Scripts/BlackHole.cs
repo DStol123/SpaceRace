@@ -25,16 +25,17 @@ public class BlackHole : MonoBehaviour
         {
             other.attachedRigidbody.AddForce(direction * gravityStrength * Time.deltaTime / distanceToCenter);
         }
-        if(distanceToEdge < deathzone)
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
         {
-            if(other.gameObject.tag == "Player")
-            {
-                player.IsAlive = false;
-            }
-            else if(other.gameObject.tag != "Player")
-            {
-                Destroy(other.gameObject);
-            }
+            player.IsAlive = false;
+        }
+        else if (collision.gameObject.tag != "Player")
+        {
+            Destroy(collision.gameObject);
         }
     }
 }
