@@ -97,7 +97,7 @@ public class PlayerControl : MonoBehaviour
             else if (timeFromDeath >= gameInfo.RespawnTime)
             {
                 transform.position = checkpointPosition;
-                rb.transform.rotation = initialOrientation;
+                rb.transform.rotation = checkpointOrientation;
 
                 isAlive = true;
                 rb.velocity = new Vector3(0f, 0f, 0f);
@@ -222,8 +222,12 @@ public class PlayerControl : MonoBehaviour
         }
         else if(other.gameObject.CompareTag("hit"))
         {
-            checkpointPosition = transform.position;
-            checkpointOrientation = rb.transform.rotation;
+            if(isAlive)
+            {
+                checkpointPosition = transform.position;
+                checkpointOrientation = rb.transform.rotation;
+            }
+            
         }
         
     }

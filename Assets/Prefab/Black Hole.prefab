@@ -140,6 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3c2052d9db344fb900df54e5694775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravityStrength: 5000
+  gravityStrength: 8000
   deathzone: 10
   player: {fileID: 0}
