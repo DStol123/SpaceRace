@@ -13,7 +13,6 @@ public class BlackHole : MonoBehaviour
 
     private Vector3 relativePosition = new Vector3();
     private float distanceToCenter;
-    private float distanceToEdge;
     private Vector3 direction = new Vector3();
 
     private void OnTriggerStay(Collider other)

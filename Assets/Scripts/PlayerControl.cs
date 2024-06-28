@@ -16,6 +16,30 @@ public class PlayerControl : MonoBehaviour
     private GameData gameInfo;
 
     public ParticleSystem explosion;
+    public ParticleSystem normalEngine;
+    public ParticleSystem boostedEngine;
+    public ParticleSystem idleEngine;
+
+    public GameObject FrontThruster;
+    public GameObject BackThruster;
+    public GameObject LeftThruster;
+    public GameObject RightThruster;
+    public GameObject UpThruster;
+    public GameObject DownThruster;
+
+    private Vector3 frontEmitterPos;
+    private Vector3 backEmitterPos;
+    private Vector3 leftEmitterPos;
+    private Vector3 rightEmitterPos;
+    private Vector3 upEmitterPos;
+    private Vector3 downEmitterPos;
+
+    private Quaternion frontEmitterRot;
+    private Quaternion backEmitterRot;
+    private Quaternion leftEmitterRot;
+    private Quaternion rightEmitterRot;
+    private Quaternion upEmitterRot;
+    private Quaternion downEmitterRot;
 
     // These will be input variables.
     // インプットの変数になる
@@ -42,20 +66,20 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    
+    private float threshold = 0.05f;
     private void StopMovement()
     {
         // This method allows the vehicle to come to a stop automatically
         // 自動に止める
-        if (forwardInput == 0f && Mathf.Sign(transform.InverseTransformDirection(rb.velocity).z) != 0)
+        if (forwardInput == 0f && Mathf.Abs(transform.InverseTransformDirection(rb.velocity).z) > threshold)
         {
             forwardInput = -1f * Mathf.Sign(transform.InverseTransformDirection(rb.velocity).z);
         }
-        if (sideInput == 0f && Mathf.Sign(transform.InverseTransformDirection(rb.velocity).x) != 0)
+        if (sideInput == 0f && Mathf.Abs(transform.InverseTransformDirection(rb.velocity).x) > threshold)
         {
             sideInput = -1f * Mathf.Sign(transform.InverseTransformDirection(rb.velocity).x);
         }
-        if (verticalInput == 0f && Mathf.Sign(transform.InverseTransformDirection(rb.velocity).y) != 0)
+        if (verticalInput == 0f && Mathf.Abs(transform.InverseTransformDirection(rb.velocity).y) > threshold)
         {
             verticalInput = -1f * Mathf.Sign(transform.InverseTransformDirection(rb.velocity).y);
         }
@@ -74,6 +98,11 @@ public class PlayerControl : MonoBehaviour
     {
         get { return isAlive; }
         set { isAlive = value; }
+    }
+    public float TimeFromDeath
+    {
+        get { return timeFromDeath; }
+        set { timeFromDeath = value; }
     }
 
     private void ResetToStart()
@@ -198,6 +227,40 @@ public class PlayerControl : MonoBehaviour
         rb.AddForce(airResistanceForce * Time.deltaTime);
     }
 
+    private void Explode()
+    {
+        Instantiate(explosion, rb.transform.position, rb.transform.rotation);
+    }
+
+    private void FireThrusters()
+    {
+        if(sideInput == 1) {Instantiate(normalEngine, leftEmitterPos, leftEmitterRot);}
+        else if(sideInput == -1) { Instantiate(normalEngine, rightEmitterPos, rightEmitterRot); }
+
+        if (forwardInput == 1) { Instantiate(normalEngine, backEmitterPos, backEmitterRot); }
+        else if (forwardInput == -1) { Instantiate(normalEngine, frontEmitterPos, frontEmitterRot); }
+
+        if(verticalInput == 1) { Instantiate(normalEngine, downEmitterPos, downEmitterRot); }
+        else if(verticalInput == -1) { Instantiate(normalEngine, downEmitterPos, downEmitterRot); }
+  
+    }
+
+    private void CheckThrusterPosition()
+    {
+        frontEmitterPos = FrontThruster.transform.position;
+        backEmitterPos = BackThruster.transform.position;
+        leftEmitterPos = LeftThruster.transform.position;
+        rightEmitterPos = RightThruster.transform.position;
+        upEmitterPos = UpThruster.transform.position;
+        downEmitterPos = DownThruster.transform.position;
+
+        frontEmitterRot = FrontThruster.transform.rotation;
+        backEmitterRot = BackThruster.transform.rotation;
+        leftEmitterRot = LeftThruster.transform.rotation;
+        rightEmitterRot = RightThruster.transform.rotation;
+        upEmitterRot = UpThruster.transform.rotation;
+        downEmitterRot = DownThruster.transform.rotation;
+    }    
     private void OnCollisionEnter(Collision collision)
     {
     // This method deals with all collisions
@@ -205,7 +268,7 @@ public class PlayerControl : MonoBehaviour
         {
         // This calls the reset method if the character collides with something at high speeds
             isAlive = false;
-            Instantiate(explosion, rb.transform.position, rb.transform.rotation);
+            Explode();
             ResetToCheckpoint();
             Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
         }
@@ -282,6 +345,8 @@ public class PlayerControl : MonoBehaviour
             {
                 AddAirResistanceForce();
             }
+            CheckThrusterPosition();
+            FireThrusters();
         }
     }
 }
