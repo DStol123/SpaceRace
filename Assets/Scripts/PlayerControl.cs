@@ -340,14 +340,15 @@ public class PlayerControl : MonoBehaviour
                 CheckBoost();
                 Boost();
                 RegenerateGuage();
-              }
+                FireThrusters();
+            }
             ResetToCheckpoint();
             if (gameInfo.AirDensity > 0)
             {
                 AddAirResistanceForce();
             }
             CheckThrusterPosition();
-            FireThrusters();
+            
         }
     }
 }
