@@ -283,6 +283,7 @@ public class PlayerControl : MonoBehaviour
         else if(other.gameObject.CompareTag("Bomb"))
         {
             isAlive = false;
+            Explode();
             ResetToCheckpoint();
             other.gameObject.SetActive(false);
         }
