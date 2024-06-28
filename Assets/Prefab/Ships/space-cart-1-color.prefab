@@ -454,6 +454,8 @@ MonoBehaviour:
   defaultInitializer: {fileID: 11400000, guid: 6d636e0e9bc094c1391dfad0b45bbc0c, type: 2}
   gameDataInitializer: {fileID: 11400000, guid: 5bc50301d240346d0ad04e87a57a1b1f,
     type: 2}
+  explosion: {fileID: 7256772118341272921, guid: 1c37afb1841492b4da1747b6461ae58a,
+    type: 3}
 --- !u!114 &5446885475385221623
 MonoBehaviour:
   m_ObjectHideFlags: 0
