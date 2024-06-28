@@ -240,7 +240,7 @@ public class PlayerControl : MonoBehaviour
         if (forwardInput == 1) { Instantiate(normalEngine, backEmitterPos, backEmitterRot); }
         else if (forwardInput == -1) { Instantiate(normalEngine, frontEmitterPos, frontEmitterRot); }
 
-        if(verticalInput == 1) { Instantiate(normalEngine, downEmitterPos, downEmitterRot); }
+        if(verticalInput == 1) { Instantiate(normalEngine, upEmitterPos, upEmitterRot); }
         else if(verticalInput == -1) { Instantiate(normalEngine, downEmitterPos, downEmitterRot); }
   
     }
