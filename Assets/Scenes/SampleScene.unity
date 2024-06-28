@@ -1297,6 +1297,12 @@ PrefabInstance:
       propertyPath: m_BackGroundColor.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9145491591882624555, guid: 0f3c141a93d6044e78bf64c042fa387d,
+        type: 3}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 7256772118341272921, guid: 1c37afb1841492b4da1747b6461ae58a,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

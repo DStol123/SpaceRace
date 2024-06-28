@@ -15,6 +15,8 @@ public class PlayerControl : MonoBehaviour
     private VehicleData vehicleInfo;
     private GameData gameInfo;
 
+    public ParticleSystem explosion;
+
     // These will be input variables.
     // インプットの変数になる
     private float forwardInput;
@@ -203,6 +205,7 @@ public class PlayerControl : MonoBehaviour
         {
         // This calls the reset method if the character collides with something at high speeds
             isAlive = false;
+            Instantiate(explosion, rb.transform.position, rb.transform.rotation);
             ResetToCheckpoint();
             Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
         }
