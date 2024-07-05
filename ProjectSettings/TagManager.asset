@@ -13,6 +13,7 @@ TagManager:
   - Bomb
   - touchtokill
   - blackHole
+  - Warp
   layers:
   - Default
   - TransparentFX
