@@ -57,7 +57,11 @@ public class PlayerCamera : MonoBehaviour
         {
             ReturnToFocus();
         }
-        FlipCamera();
+        if(player.IsAlive)
+        {
+            FlipCamera();
+        }
+        
     }
     void Start()
     {

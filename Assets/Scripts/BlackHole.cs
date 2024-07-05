@@ -15,6 +15,8 @@ public class BlackHole : MonoBehaviour
     private float distanceToCenter;
     private Vector3 direction = new Vector3();
 
+    public GameObject BlackHoleCamera;
+
     private void OnTriggerStay(Collider other)
     {
         relativePosition = this.transform.position - other.gameObject.transform.position;
@@ -26,15 +28,27 @@ public class BlackHole : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             player.IsAlive = false;
+            BlackHoleCamera.SetActive(true);
         }
         else if (collision.gameObject.tag != "Player")
         {
             Destroy(collision.gameObject);
+        }
+    }
+    void Start()
+    {
+        BlackHoleCamera.SetActive(false);
+    }
+    void Update()
+    {
+        if(player.IsAlive == true)
+        {
+            BlackHoleCamera.SetActive(false);
         }
     }
 }

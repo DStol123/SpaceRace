@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     public GameDataSO gameDataInitializer;
     private VehicleData vehicleInfo;
     private GameData gameInfo;
+    public PlayerCamera cameras;
 
     public ParticleSystem explosion;
     public ParticleSystem normalEngine;
@@ -114,7 +115,7 @@ public class PlayerControl : MonoBehaviour
         rb.transform.rotation = initialOrientation;
         isAlive = true;
     }
-
+    private float askjghasdlgh;
     private void ResetToCheckpoint()
     {
         //When this method is called, the character will go back to the previous checkpoint
@@ -134,6 +135,7 @@ public class PlayerControl : MonoBehaviour
                 rb.velocity = new Vector3(0f, 0f, 0f);
                 timeFromDeath = 0f;
                 boosting = false;
+                
             }
             Debug.Log("Vehicle Crashed. Reset to checkpoint. 衝突、リセットしました。");
         }
@@ -268,7 +270,10 @@ public class PlayerControl : MonoBehaviour
         {
         // This calls the reset method if the character collides with something at high speeds
             isAlive = false;
-            Explode();
+            if(collision.gameObject.tag != "blackHole")
+            {
+                Explode();
+            }
             ResetToCheckpoint();
             Debug.Log("Vehicle Crashed. Reset to start. 衝突、リセットしました。");
         }
