@@ -161,6 +161,7 @@ public class PlayerControl : MonoBehaviour
         { 
             rb.AddRelativeForce(new Vector3(0, 0, vehicleInfo.BoostSpeed * Time.deltaTime));
             gaugeMeter = gaugeMeter - vehicleInfo.BoostConsumption * Time.deltaTime;
+            Instantiate(boostedEngine, backEmitterPos, backEmitterRot);
             Debug.Log("Boosting. ブースト中");
             if(gaugeMeter <= 0)
             { 
@@ -236,8 +237,8 @@ public class PlayerControl : MonoBehaviour
 
     private void FireThrusters()
     {
-        if(sideInput == 1) {Instantiate(normalEngine, leftEmitterPos, leftEmitterRot);}
-        else if(sideInput == -1) { Instantiate(normalEngine, rightEmitterPos, rightEmitterRot); }
+        ///if(sideInput == 1) {Instantiate(normalEngine, leftEmitterPos, leftEmitterRot);}
+        ///else if(sideInput == -1) { Instantiate(normalEngine, rightEmitterPos, rightEmitterRot); }
 
         if (forwardInput == 1) { Instantiate(normalEngine, backEmitterPos, backEmitterRot); }
         else if (forwardInput == -1) { Instantiate(normalEngine, frontEmitterPos, frontEmitterRot); }
