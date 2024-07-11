@@ -69,7 +69,8 @@ PrefabInstance:
       value: nitro
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 65702495048144492, guid: 8e89503c86f504d8082ca2e217845a16, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8e89503c86f504d8082ca2e217845a16,
